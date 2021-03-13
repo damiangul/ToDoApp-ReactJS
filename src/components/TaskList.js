@@ -1,7 +1,7 @@
 import React from "react";
 import Task from "./Task";
 
-const TaskList = (props) => {
+function TaskList(props) {
   const active = props.tasks.filter((item) => item.active === true);
   const done = props.tasks.filter((item) => item.active === false);
 
@@ -64,6 +64,6 @@ const TaskList = (props) => {
       </div>
     </>
   );
-};
+}
 
 export default TaskList;

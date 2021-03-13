@@ -1,9 +1,12 @@
 import React from "react";
 
-const Task = (props) => {
+function Task(props) {
   const style = {
     color: "red",
   };
+
+  const handleTaskDone = () => props.change(id);
+  const handleDeleteTask = () => props.delete(id);
 
   const { text, date, id, active, important, finishDate } = props.task;
 
@@ -13,8 +16,8 @@ const Task = (props) => {
         <p>
           <strong style={important ? style : null}>{text}</strong> - do{" "}
           <span>{date} </span>
-          <button onClick={() => props.change(id)}>Zostało zrobione</button>
-          <button onClick={() => props.delete(id)}>X</button>
+          <button onClick={handleTaskDone}>Zostało zrobione</button>
+          <button onClick={handleDeleteTask}>Usuń</button>
         </p>
       </div>
     );
@@ -26,11 +29,11 @@ const Task = (props) => {
         <p>
           <strong>{text}</strong> (zrobić do {date})
           <br />- potwierdzenie wykonania {finish}
-          <button onClick={() => props.delete(id)}>X</button>
+          <button onClick={handleDeleteTask}>Usuń</button>
         </p>
       </div>
     );
   }
-};
+}
 
 export default Task;

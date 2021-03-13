@@ -1,44 +1,15 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import AddTask from "./AddTask";
 import TaskList from "./TaskList";
 
-class App extends Component {
-  counter = 0;
+function AppFunction() {
+  const [counter, setCounter] = useState(0);
+  const [tasks, setTasks] = useState([]);
 
-  state = {
-    tasks: [],
-  };
-
-  deleteTask = (id) => {
-    // console.log('delete ' + id);
-    const tasks = [...this.state.tasks];
-    const index = tasks.findIndex((item) => item.id === id);
-    tasks.splice(index, 1);
-
-    this.setState({
-      tasks,
-    });
-  };
-
-  changeTaskStatus = (id) => {
-    // console.log('change ' + id);
-    const tasks = Array.from(this.state.tasks);
-    tasks.forEach((item) => {
-      if (item.id === id) {
-        item.active = !item.active;
-        item.finishDate = new Date().getTime();
-      }
-    });
-
-    this.setState({
-      tasks,
-    });
-  };
-
-  addTask = (text, date, important) => {
+  const addTask = (text, date, important) => {
     const task = {
-      id: this.counter,
+      id: counter,
       text,
       date,
       important,
@@ -46,28 +17,39 @@ class App extends Component {
       finishDate: null,
     };
 
-    this.counter++;
-
-    this.setState((prevState) => ({
-      tasks: [...prevState.tasks, task],
-    }));
+    setCounter(counter + 1);
+    setTasks([...tasks, task]);
 
     return true;
   };
 
-  render() {
-    return (
-      <div className="App">
-        <h1>TODO APP</h1>
-        <AddTask add={this.addTask} />
-        <TaskList
-          tasks={this.state.tasks}
-          delete={this.deleteTask}
-          change={this.changeTaskStatus}
-        />
-      </div>
-    );
-  }
+  const deleteTask = (id) => {
+    const tasksArr = [...tasks];
+    const index = tasksArr.findIndex((item) => item.id === id);
+    tasksArr.splice(index, 1);
+
+    setTasks(tasksArr);
+  };
+
+  const changeTaskStatus = (id) => {
+    const tasksArr = [...tasks];
+    tasksArr.forEach((item) => {
+      if (item.id === id) {
+        item.active = !item.active;
+        item.finishDate = new Date().getTime();
+      }
+    });
+
+    setTasks(tasksArr);
+  };
+
+  return (
+    <div className="App">
+      <h1>TODO APP</h1>
+      <AddTask add={addTask} />
+      <TaskList tasks={tasks} delete={deleteTask} change={changeTaskStatus} />
+    </div>
+  );
 }
 
-export default App;
+export default AppFunction;
