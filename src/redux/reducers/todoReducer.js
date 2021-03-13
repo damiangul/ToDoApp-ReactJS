@@ -16,7 +16,6 @@ export const todoReducer = (state = [], action) => {
     case DELETE_TASK:
       return state.filter((item) => item.id !== action.payload.id);
     default:
-      console.log("Bład!");
       return state;
   }
 };

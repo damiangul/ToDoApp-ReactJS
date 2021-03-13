@@ -2,7 +2,7 @@ import React from "react";
 import Task from "./Task";
 import { useSelector } from "react-redux";
 
-function TaskList(props) {
+function TaskList() {
   const tasks = useSelector((store) => store.tasks);
 
   const active = tasks.filter((item) => item.active === true);
