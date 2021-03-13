@@ -1,9 +1,12 @@
 import React from "react";
 import Task from "./Task";
+import { useSelector } from "react-redux";
 
 function TaskList(props) {
-  const active = props.tasks.filter((item) => item.active === true);
-  const done = props.tasks.filter((item) => item.active === false);
+  const tasks = useSelector((store) => store.tasks);
+
+  const active = tasks.filter((item) => item.active === true);
+  const done = tasks.filter((item) => item.active === false);
 
   if (done.length >= 2) {
     done.sort((a, b) => b.finishDate - a.finishDate);
@@ -20,23 +23,9 @@ function TaskList(props) {
     });
   }
 
-  const activeTasks = active.map((item) => (
-    <Task
-      key={item.id}
-      task={item}
-      delete={props.delete}
-      change={props.change}
-    />
-  ));
+  const activeTasks = active.map((item) => <Task key={item.id} task={item} />);
 
-  const doneTasks = done.map((item) => (
-    <Task
-      key={item.id}
-      task={item}
-      delete={props.delete}
-      change={props.change}
-    />
-  ));
+  const doneTasks = done.map((item) => <Task key={item.id} task={item} />);
 
   return (
     <>

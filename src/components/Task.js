@@ -1,14 +1,17 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteTask, changeStatusTask } from "../redux/todoActions";
 
 function Task(props) {
   const style = {
     color: "red",
   };
 
-  const handleTaskDone = () => props.change(id);
-  const handleDeleteTask = () => props.delete(id);
-
+  const dispatch = useDispatch();
   const { text, date, id, active, important, finishDate } = props.task;
+
+  const handleTaskDone = () => dispatch(changeStatusTask(id));
+  const handleDeleteTask = () => dispatch(deleteTask(id));
 
   if (active) {
     return (
