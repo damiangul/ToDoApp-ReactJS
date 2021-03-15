@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, changeStatusTask } from "../redux/todoActions";
+import AddTask from "./AddTask";
 
 function Task(props) {
   const style = {
@@ -8,10 +9,12 @@ function Task(props) {
   };
 
   const dispatch = useDispatch();
+  const [switchEdit, setSwitchEdit] = useState(false);
   const { text, date, id, active, important, finishDate } = props.task;
 
   const handleTaskDone = () => dispatch(changeStatusTask(id));
   const handleDeleteTask = () => dispatch(deleteTask(id));
+  const handleEditTask = () => setSwitchEdit(!switchEdit);
 
   if (active) {
     return (
@@ -20,8 +23,12 @@ function Task(props) {
           <strong style={important ? style : null}>{text}</strong> - do{" "}
           <span>{date} </span>
           <button onClick={handleTaskDone}>Zostało zrobione</button>
+          <button onClick={handleEditTask}>Edytuj</button>
           <button onClick={handleDeleteTask}>Usuń</button>
         </p>
+        {switchEdit ? (
+          <AddTask {...props.task} handleSwitch={handleEditTask} />
+        ) : null}
       </div>
     );
   } else {

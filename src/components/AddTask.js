@@ -1,35 +1,41 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTask } from "../redux/todoActions";
+import { addTask, editTask } from "../redux/todoActions";
 
 import "./css/AddTask.css";
 
-function AddTaskF(props) {
+function AddTask({ text = "", id = 0, important = false, handleSwitch }) {
+  // const { text, date, id, active, important, finishDate } = props;
+
   const minDate = new Date().toISOString().slice(0, 10);
   let maxDate = minDate.slice(0, 4) * 1 + 1;
   maxDate = maxDate + "-12-31";
 
-  const [text, setText] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [date, setDate] = useState(minDate);
+  const [textAdd, setTextAdd] = useState(text);
+  const [checkedAdd, setCheckedAdd] = useState(important);
+  const [dateAdd, setDateAdd] = useState(minDate);
   const dispatch = useDispatch();
 
-  const handleText = (e) => setText(e.target.value);
-  const handleCheckbox = (e) => setChecked(e.target.checked);
-  const handleDate = (e) => setDate(e.target.value);
+  const handleText = (e) => setTextAdd(e.target.value);
+  const handleCheckbox = (e) => setCheckedAdd(e.target.checked);
+  const handleDate = (e) => setDateAdd(e.target.value);
   const handleClick = () => {
-    // const add = props.add(text, date, checked);
     const taskObject = {
-      text,
-      date,
-      important: checked,
+      id,
+      text: textAdd,
+      date: dateAdd,
+      important: checkedAdd,
     };
 
-    dispatch(addTask(taskObject));
+    id ? dispatch(editTask(taskObject)) : dispatch(addTask(taskObject));
 
-    setText("");
-    setChecked(false);
-    setDate(minDate);
+    if (id) {
+      handleSwitch();
+    } else {
+      setTextAdd("");
+      setCheckedAdd(false);
+      setDateAdd(minDate);
+    }
   };
 
   return (
@@ -39,12 +45,12 @@ function AddTaskF(props) {
         name=""
         id=""
         placeholder="Dodaj zadanie"
-        value={text}
+        value={textAdd}
         onChange={handleText}
       />
       <input
         type="checkbox"
-        checked={checked}
+        checked={checkedAdd}
         id="important"
         onChange={handleCheckbox}
       />
@@ -53,15 +59,15 @@ function AddTaskF(props) {
       <label htmlFor="date">Do kiedy zrobić?</label>
       <input
         type="date"
-        value={date}
+        value={dateAdd}
         min={minDate}
         max={maxDate}
         onChange={handleDate}
       />
       <br />
-      <button onClick={handleClick}>Dodaj</button>
+      <button onClick={handleClick}>{id ? "Edytuj" : "Dodaj"}</button>
     </div>
   );
 }
 
-export default AddTaskF;
+export default AddTask;
