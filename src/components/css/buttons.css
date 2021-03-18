@@ -1,0 +1,29 @@
+.buttonEdit,
+.buttonDelete,
+.buttonDone {
+  padding: 5px 10px;
+  margin: 0 5px;
+  text-transform: uppercase;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buttonEdit {
+  background-color: #1f3ce2;
+}
+
+.buttonDelete {
+  background-color: rgb(189, 43, 43);
+}
+
+.buttonDone {
+  background-color: rgb(19, 206, 103);
+}
+
+.buttonEdit:hover,
+.buttonDelete:hover,
+.buttonDone:hover {
+  background-color: #2e1b30;
+}
